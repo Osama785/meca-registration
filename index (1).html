@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join MECA Crew</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#F26722; --orange2:#F58026; --navy:#052048; --navy-deep:#04132B; --navy-mid:#012D5E;
+  --white:#fff; --grey:#D6D1CE; --mist:#E3E5DF;
+  --glass:rgba(255,255,255,.08); --glass-line:rgba(255,255,255,.22);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',system-ui,sans-serif;color:var(--mist);min-height:100vh;
+  background:
+    radial-gradient(60% 40% at 85% 0%,rgba(242,103,34,.35),transparent 70%),
+    radial-gradient(50% 40% at 0% 45%,rgba(1,45,94,.9),transparent 70%),
+    radial-gradient(55% 35% at 100% 85%,rgba(245,128,38,.22),transparent 70%),
+    linear-gradient(180deg,var(--navy-deep),var(--navy) 55%,var(--navy-deep));
+  background-attachment:fixed;
+  padding:clamp(16px,4vw,48px) 16px 64px;
+}
+.wrap{max-width:760px;margin:0 auto}
+header{text-align:center;padding:8px 0 28px}
+header img{width:min(300px,70vw);height:auto;filter:drop-shadow(0 8px 24px rgba(242,103,34,.35))}
+header h1{font-size:clamp(28px,6vw,42px);font-weight:700;color:var(--white);margin-top:12px;letter-spacing:-.01em}
+header p{max-width:46ch;margin:10px auto 0;font-weight:300;font-size:1.05rem;line-height:1.5;color:var(--grey)}
+
+/* iOS-style glass */
+.glass{
+  background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+  -webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);
+  border:1px solid var(--glass-line);border-radius:28px;
+  box-shadow:0 12px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 0 rgba(255,255,255,.06);
+  padding:clamp(20px,4vw,32px);margin-bottom:20px;
+}
+h2{font-size:1.25rem;font-weight:600;color:var(--white);margin-bottom:18px;padding-left:12px;border-left:4px solid var(--orange);line-height:1.1}
+.field{margin-bottom:18px}
+.field:last-child{margin-bottom:0}
+label,.lbl{display:block;font-size:.95rem;font-weight:500;color:var(--white);margin-bottom:7px}
+.req{color:var(--orange2)} .opt{font-weight:300;color:var(--grey);font-size:.85rem}
+input[type=text],input[type=email],input[type=tel],select,textarea{
+  width:100%;font:inherit;color:var(--white);padding:13px 16px;border-radius:16px;
+  background:rgba(4,19,43,.45);border:1px solid rgba(255,255,255,.18);
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.25);transition:border-color .2s,box-shadow .2s;
+}
+textarea{min-height:110px;resize:vertical;line-height:1.5}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23F58026' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+select option{color:#04132B}
+::placeholder{color:rgba(227,229,223,.45)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 4px rgba(242,103,34,.28)}
+.invalid{border-color:#ff7a7a !important}
+.err{color:#ffb4a8;font-size:.85rem;margin-top:5px;display:none}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.row{grid-template-columns:1fr}}
+
+.file{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;border:1.5px dashed rgba(255,255,255,.35);background:rgba(255,255,255,.05);cursor:pointer}
+.file input{display:none}
+.file .btn-mini{background:rgba(242,103,34,.9);color:#fff;border-radius:12px;padding:8px 14px;font-weight:500;font-size:.9rem;white-space:nowrap}
+.file span.name{font-size:.9rem;color:var(--grey);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.choices{display:flex;gap:12px;flex-wrap:wrap}
+.pill{position:relative}
+.pill input{position:absolute;opacity:0}
+.pill span{display:block;padding:10px 24px;border-radius:999px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.07);cursor:pointer;transition:.2s}
+.pill input:checked+span{background:var(--orange);border-color:var(--orange);color:#fff;box-shadow:0 4px 16px rgba(242,103,34,.45)}
+.pill input:focus-visible+span{box-shadow:0 0 0 4px rgba(242,103,34,.4)}
+
+.check{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;font-weight:300;line-height:1.45;color:var(--mist);cursor:pointer}
+.check input{appearance:none;flex:none;width:24px;height:24px;margin-top:1px;border-radius:8px;border:1.5px solid rgba(255,255,255,.4);background:rgba(4,19,43,.45);display:grid;place-content:center;cursor:pointer}
+.check input:checked{background:var(--orange);border-color:var(--orange)}
+.check input:checked::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.check input:focus-visible{box-shadow:0 0 0 4px rgba(242,103,34,.4)}
+
+button.submit{
+  width:100%;font:inherit;font-size:1.1rem;font-weight:600;color:#fff;border:0;cursor:pointer;
+  padding:17px;border-radius:20px;background:linear-gradient(135deg,var(--orange2),var(--orange));
+  box-shadow:0 10px 30px rgba(242,103,34,.45),inset 0 1px 0 rgba(255,255,255,.4);transition:transform .15s,filter .2s;
+}
+button.submit:hover{filter:brightness(1.08)} button.submit:active{transform:scale(.98)}
+button.submit:disabled{opacity:.6;cursor:wait}
+.status{text-align:center;margin-top:14px;min-height:1.2em}
+.done{text-align:center;display:none}
+.done h2{border:0;padding:0;font-size:1.8rem}
+.done p{color:var(--grey);margin-top:8px}
+.hp{position:absolute;left:-9999px}
+footer{text-align:center;font-weight:300;color:var(--grey);margin-top:24px;font-size:.9rem}
+@media(prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="logo.png" alt="MECA – Our limits tend to infinity">
+    <h1>Join the MECA Crew</h1>
+    <p>Tell us about yourself and where you'd like to contribute. It takes about 10 minutes.</p>
+  </header>
+
+  <form id="form" novalidate>
+    <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <section class="glass">
+      <h2>Personal Information</h2>
+      <div class="field"><label for="fullName">Full name <span class="req">*</span></label><input type="text" id="fullName" name="fullName" required autocomplete="name"></div>
+      <div class="row">
+        <div class="field"><label for="email">Email <span class="req">*</span></label><input type="email" id="email" name="email" required autocomplete="email"></div>
+        <div class="field"><label for="phone">Phone number <span class="req">*</span></label><input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="+20 ..."></div>
+      </div>
+      <div class="field"><label for="university">University <span class="req">*</span></label><input type="text" id="university" name="university" required></div>
+      <div class="row">
+        <div class="field"><label for="major">Faculty / Major <span class="req">*</span></label><input type="text" id="major" name="major" required></div>
+        <div class="field"><label for="year">Academic year <span class="req">*</span></label>
+          <select id="year" name="year" required><option value="">Select…</option><option>Year 1</option><option>Year 2</option><option>Year 3</option><option>Year 4</option><option>Year 5+</option><option>Graduate</option></select></div>
+      </div>
+    </section>
+
+    <section class="glass">
+      <h2>Preferences</h2>
+      <div class="row">
+        <div class="field"><label for="pref1">First preference <span class="req">*</span></label><select id="pref1" name="pref1" required class="pref"></select></div>
+        <div class="field"><label for="pref2">Second preference <span class="req">*</span></label><select id="pref2" name="pref2" required class="pref"></select></div>
+      </div>
+      <div class="field"><label for="whyFirst">Why is this your first preference? <span class="req">*</span></label><textarea id="whyFirst" name="whyFirst" required></textarea></div>
+      <div class="field"><label for="relExp">Relevant experience <span class="opt">(optional)</span></label><textarea id="relExp" name="relExp"></textarea></div>
+    </section>
+
+    <section class="glass">
+      <h2>Experience</h2>
+      <div class="field"><span class="lbl">CV <span class="opt">(PDF or Word, up to 5 MB)</span></span>
+        <label class="file" for="cv"><input type="file" id="cv" accept=".pdf,.doc,.docx"><span class="btn-mini">Choose file</span><span class="name" id="fileName">No file chosen</span></label>
+        </div>
+      <div class="field"><span class="lbl">Previous student activity experience? <span class="req">*</span></span>
+        <div class="choices" role="radiogroup">
+          <label class="pill"><input type="radio" name="prevExp" value="Yes" required><span>Yes</span></label>
+          <label class="pill"><input type="radio" name="prevExp" value="No"><span>No</span></label>
+        </div></div>
+      <div class="field"><label for="prevDetails">If yes, tell us about it <span class="opt">(optional)</span></label><textarea id="prevDetails" name="prevDetails"></textarea></div>
+    </section>
+
+    <section class="glass">
+      <h2>Availability</h2>
+      <div class="field"><label for="availability">General availability <span class="req">*</span></label>
+        <select id="availability" name="availability" required><option value="">Select…</option><option>Weekdays</option><option>Weekends</option><option>Evenings</option><option>Flexible – any time</option></select></div>
+      <div class="field"><label for="commitments">Any commitments that may affect your participation? <span class="opt">(optional)</span></label><textarea id="commitments" name="commitments"></textarea></div>
+    </section>
+
+    <section class="glass">
+      <h2>Motivation</h2>
+      <div class="field"><label for="whyJoin">Why do you want to join MECA Crew? <span class="req">*</span></label><textarea id="whyJoin" name="whyJoin" required></textarea></div>
+      <div class="field"><label for="gain">What do you hope to gain from MECA? <span class="req">*</span></label><textarea id="gain" name="gain" required></textarea></div>
+    </section>
+
+    <section class="glass">
+      <h2>Final</h2>
+      <div class="field"><label for="source">How did you hear about MECA?</label>
+        <select id="source" name="source"><option value="">Select…</option><option>Instagram</option><option>Facebook</option><option>LinkedIn</option><option>Friend / word of mouth</option><option>University event</option><option>Other</option></select></div>
+      <label class="check"><input type="checkbox" id="c1" required><span>I confirm that the information I provided is accurate. <span class="req">*</span></span></label>
+      <label class="check"><input type="checkbox" id="c2" required><span>I agree that MECA may store and use my data for recruitment purposes. <span class="req">*</span></span></label>
+      <div class="err" id="consentErr">Please tick both boxes to continue.</div>
+      <button class="submit" id="btn" type="submit">Submit application</button>
+      <div class="status" id="status" role="status"></div>
+    </section>
+  </form>
+
+  <section class="glass done" id="done">
+    <h2>Application received</h2>
+    <p>Thanks for applying to MECA Crew. We'll contact you by email soon.</p>
+  </section>
+  <footer>MECA · Our limits tend to infinity</footer>
+</div>
+
+<script>
+// 1) Paste your Google Apps Script Web App URL here (see setup guide)
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrRDomWubhM3RnUZWbwdW9RmW4Vt6Ht8kfppHPy0ZYaJO7_ZxLGPOuAiVRXJVK_B6S/exec";
+// 2) Edit this list to match MECA's real committees / teams
+const PREFERENCES = ["Public Relations","Business Development","Human Resources - OD","Human Resources - Rec","Quality and Documentation","Information Technology","Marketing"];
+
+const $ = id => document.getElementById(id);
+const form = $("form");
+const MAX = 5 * 1024 * 1024;
+
+document.querySelectorAll(".pref").forEach(s => {
+  s.innerHTML = '<option value="">Select…</option>' + PREFERENCES.map(p => `<option>${p}</option>`).join("");
+});
+form.querySelectorAll("input[type=text],input[type=email],input[type=tel]").forEach(i => i.maxLength = 100);
+form.querySelectorAll("textarea").forEach(t => t.maxLength = 1500);
+
+/* ---------- validation rules ---------- */
+const NAME_RE  = /^\p{L}[\p{L}'.\-]*(?:\s+\p{L}[\p{L}'.\-]*)+$/u;   // at least two words, letters only
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const TYPOS = {"gmial.com":"gmail.com","gmal.com":"gmail.com","gamil.com":"gmail.com","gmail.co":"gmail.com","gmail.con":"gmail.com","hotmial.com":"hotmail.com","hotmail.con":"hotmail.com","yaho.com":"yahoo.com","outlok.com":"outlook.com"};
+const EG_MOBILE = /^(?:\+20|0020|0)?(1[0125]\d{8})$/;                // Egyptian mobile
+const INTL      = /^\+(?!20)[1-9]\d{7,14}$/;                          // other international numbers
+const cleanPhone = v => v.replace(/[\s\-().]/g, "");
+const hasLetter = v => /\p{L}/u.test(v);
+const minLen = n => v => v.length < n ? `Please write at least ${n} characters (${v.length}/${n}).` : "";
+const prevVal = () => (form.querySelector("[name=prevExp]:checked") || {}).value;
+
+const rules = {
+  fullName: v => !v ? "Enter your full name." : !NAME_RE.test(v) ? "Enter your first and last name, using letters only." : "",
+  email: v => {
+    if (!v) return "Enter your email.";
+    if (!EMAIL_RE.test(v)) return "Enter a valid email, like name@example.com.";
+    const [u, d] = v.toLowerCase().split("@");
+    return TYPOS[d] ? `Did you mean ${u}@${TYPOS[d]}?` : "";
+  },
+  phone: v => { const p = cleanPhone(v);
+    return !v ? "Enter your phone number." : (EG_MOBILE.test(p) || INTL.test(p)) ? "" : "Enter a valid phone number, like 01012345678 or +201012345678."; },
+  university: v => v.length < 2 || !hasLetter(v) ? "Enter your university name." : "",
+  major: v => v.length < 2 || !hasLetter(v) ? "Enter your faculty or major." : "",
+  year: v => v ? "" : "Select your academic year.",
+  pref1: v => v ? "" : "Select your first preference.",
+  pref2: v => !v ? "Select your second preference." : v === $("pref1").value ? "Your second preference must be different from your first." : "",
+  whyFirst: v => !v ? "Tell us why this is your first preference." : minLen(20)(v),
+  prevDetails: v => v && prevVal() === "No" ? "You answered No above. Clear this box or change your answer." : "",
+  availability: v => v ? "" : "Select your general availability.",
+  whyJoin: v => !v ? "Tell us why you want to join." : minLen(20)(v),
+  gain: v => !v ? "Tell us what you hope to gain." : minLen(20)(v)
+};
+
+function setErr(el, msg) {
+  const box = el.closest(".field") || el.parentElement;
+  let e = box.querySelector(":scope > .err");
+  if (!e) { e = document.createElement("div"); e.className = "err"; box.appendChild(e); }
+  e.textContent = msg; e.style.display = msg ? "block" : "none";
+  el.classList.toggle("invalid", !!msg);
+  el.setAttribute("aria-invalid", msg ? "true" : "false");
+  return msg;
+}
+const checkField = id => { const el = $(id); return setErr(el, rules[id](el.value.trim())); };
+
+function checkCV() {
+  const el = $("cv"), f = el.files[0]; let msg = "";
+  if (f) {
+    if (!/\.(pdf|docx?)$/i.test(f.name)) msg = "Upload a PDF or Word file (.pdf, .doc, .docx).";
+    else if (f.size === 0) msg = "That file is empty. Choose another one.";
+    else if (f.size > MAX) msg = "File is larger than 5 MB. Choose a smaller one.";
+  }
+  if (msg) { el.value = ""; $("fileName").textContent = "No file chosen"; }
+  else $("fileName").textContent = f ? f.name : "No file chosen";
+  setErr(el, msg); $("fileName").closest(".file").classList.toggle("invalid", !!msg);
+  return msg;
+}
+function checkPrev() {
+  const box = form.querySelector("[name=prevExp]").closest(".field");
+  return setErr(box.querySelector(".choices"), prevVal() ? "" : "Choose Yes or No.");
+}
+function checkConsent() {
+  const bad = !($("c1").checked && $("c2").checked);
+  const e = $("consentErr"); e.textContent = bad ? "Tick both boxes to continue." : ""; e.style.display = bad ? "block" : "none";
+  return bad ? "x" : "";
+}
+
+/* ---------- live validation ---------- */
+const touched = {};
+function syncPrefs() {   // the option chosen as first preference is disabled in the second dropdown
+  const a = $("pref1").value;
+  [...$("pref2").options].forEach(o => o.disabled = !!a && o.value === a);
+  if (a && $("pref2").value === a) $("pref2").value = "";
+}
+Object.keys(rules).forEach(id => {
+  const el = $(id);
+  el.addEventListener("blur", () => { if (el.type !== "select-one") el.value = el.value.trim(); touched[id] = true; checkField(id); });
+  el.addEventListener(el.tagName === "SELECT" ? "change" : "input", () => {
+    if (id === "pref1") { syncPrefs(); if (touched.pref2) checkField("pref2"); }
+    if (touched[id] || el.tagName === "SELECT") { touched[id] = true; checkField(id); }
+  });
+});
+$("pref1").addEventListener("change", syncPrefs);
+$("cv").addEventListener("change", checkCV);
+form.querySelectorAll("[name=prevExp]").forEach(r => r.addEventListener("change", () => { checkPrev(); if (touched.prevDetails) checkField("prevDetails"); checkField("prevDetails"); }));
+["c1", "c2"].forEach(id => $(id).addEventListener("change", checkConsent));
+
+const toBase64 = f => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result.split(",")[1]); r.onerror = rej; r.readAsDataURL(f); });
+
+/* ---------- submit ---------- */
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (form.website.value) return;                       // honeypot: bots fill this
+  syncPrefs();
+  const bad = [];
+  Object.keys(rules).forEach(id => { touched[id] = true; if (checkField(id)) bad.push($(id)); });
+  if (checkCV()) bad.push($("cv"));
+  if (checkPrev()) bad.push(form.querySelector("[name=prevExp]"));
+  if (checkConsent()) bad.push($("c1"));
+  if (bad.length) {
+    $("status").textContent = `Please fix ${bad.length} highlighted ${bad.length === 1 ? "field" : "fields"} above.`; $("status").style.color = "#ffb4a8";
+    const first = bad.sort((a, b) => a.compareDocumentPosition(b) & 4 ? -1 : 1)[0];
+    first.scrollIntoView({ behavior: "smooth", block: "center" }); first.focus({ preventScroll: true }); return;
+  }
+
+  $("btn").disabled = true; $("btn").textContent = "Submitting…"; $("status").textContent = "";
+  try {
+    const data = Object.fromEntries(new FormData(form).entries());
+    delete data.website;
+    Object.keys(data).forEach(k => { if (typeof data[k] === "string") data[k] = data[k].trim(); });
+    data.email = data.email.toLowerCase();
+    const p = cleanPhone(data.phone), m = p.match(EG_MOBILE);
+    data.phone = m ? "+20" + m[1] : p;                  // store phones in one consistent format
+    data.prevExp = prevVal(); data.consent = "Yes";
+    const file = $("cv").files[0];
+    if (file) { data.cvName = file.name; data.cvType = file.type || "application/octet-stream"; data.cvData = await toBase64(file); }
+
+    if (SCRIPT_URL.startsWith("PASTE")) { console.log("Preview mode – nothing sent:", data); }
+    else await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) });
+    form.style.display = "none"; $("done").style.display = "block"; window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (err) {
+    $("status").textContent = "Something went wrong. Check your connection and try again."; $("status").style.color = "#ffb4a8";
+    $("btn").disabled = false; $("btn").textContent = "Submit application";
+  }
+});
+</script>
+</body>
+</html>
