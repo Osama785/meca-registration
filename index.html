@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Join MECA Crew</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -125,7 +129,6 @@ footer{text-align:center;font-weight:300;color:var(--grey);margin-top:24px;font-
         <div class="field"><label for="pref1">First preference <span class="req">*</span></label><select id="pref1" name="pref1" required class="pref"></select></div>
         <div class="field"><label for="pref2">Second preference <span class="req">*</span></label><select id="pref2" name="pref2" required class="pref"></select></div>
       </div>
-      <div class="field"><label for="whyFirst">Why is this your first preference? <span class="req">*</span></label><textarea id="whyFirst" name="whyFirst" required></textarea></div>
       <div class="field"><label for="relExp">Relevant experience <span class="opt">(optional)</span></label><textarea id="relExp" name="relExp"></textarea></div>
     </section>
 
@@ -150,12 +153,6 @@ footer{text-align:center;font-weight:300;color:var(--grey);margin-top:24px;font-
     </section>
 
     <section class="glass">
-      <h2>Motivation</h2>
-      <div class="field"><label for="whyJoin">Why do you want to join MECA Crew? <span class="req">*</span></label><textarea id="whyJoin" name="whyJoin" required></textarea></div>
-      <div class="field"><label for="gain">What do you hope to gain from MECA? <span class="req">*</span></label><textarea id="gain" name="gain" required></textarea></div>
-    </section>
-
-    <section class="glass">
       <h2>Final</h2>
       <div class="field"><label for="source">How did you hear about MECA?</label>
         <select id="source" name="source"><option value="">Select…</option><option>Instagram</option><option>Facebook</option><option>LinkedIn</option><option>Friend / word of mouth</option><option>University event</option><option>Other</option></select></div>
@@ -176,7 +173,7 @@ footer{text-align:center;font-weight:300;color:var(--grey);margin-top:24px;font-
 
 <script>
 // 1) Paste your Google Apps Script Web App URL here (see setup guide)
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrRDomWubhM3RnUZWbwdW9RmW4Vt6Ht8kfppHPy0ZYaJO7_ZxLGPOuAiVRXJVK_B6S/exec";
+const SCRIPT_URL = "PASTE_YOUR_WEB_APP_URL_HERE";
 // 2) Edit this list to match MECA's real committees / teams
 const PREFERENCES = ["Public Relations","Business Development","Human Resources - OD","Human Resources - Rec","Quality and Documentation","Information Technology","Marketing"];
 
@@ -216,11 +213,8 @@ const rules = {
   year: v => v ? "" : "Select your academic year.",
   pref1: v => v ? "" : "Select your first preference.",
   pref2: v => !v ? "Select your second preference." : v === $("pref1").value ? "Your second preference must be different from your first." : "",
-  whyFirst: v => !v ? "Tell us why this is your first preference." : minLen(20)(v),
   prevDetails: v => v && prevVal() === "No" ? "You answered No above. Clear this box or change your answer." : "",
   availability: v => v ? "" : "Select your general availability.",
-  whyJoin: v => !v ? "Tell us why you want to join." : minLen(20)(v),
-  gain: v => !v ? "Tell us what you hope to gain." : minLen(20)(v)
 };
 
 function setErr(el, msg) {
