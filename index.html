@@ -273,41 +273,4 @@ form.querySelectorAll("[name=prevExp]").forEach(r => r.addEventListener("change"
 const toBase64 = f => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result.split(",")[1]); r.onerror = rej; r.readAsDataURL(f); });
 
 /* ---------- submit ---------- */
-form.addEventListener("submit", async e => {
-  e.preventDefault();
-  if (form.website.value) return;                       // honeypot: bots fill this
-  syncPrefs();
-  const bad = [];
-  Object.keys(rules).forEach(id => { touched[id] = true; if (checkField(id)) bad.push($(id)); });
-  if (checkCV()) bad.push($("cv"));
-  if (checkPrev()) bad.push(form.querySelector("[name=prevExp]"));
-  if (checkConsent()) bad.push($("c1"));
-  if (bad.length) {
-    $("status").textContent = `Please fix ${bad.length} highlighted ${bad.length === 1 ? "field" : "fields"} above.`; $("status").style.color = "#ffb4a8";
-    const first = bad.sort((a, b) => a.compareDocumentPosition(b) & 4 ? -1 : 1)[0];
-    first.scrollIntoView({ behavior: "smooth", block: "center" }); first.focus({ preventScroll: true }); return;
-  }
-
-  $("btn").disabled = true; $("btn").textContent = "Submitting…"; $("status").textContent = "";
-  try {
-    const data = Object.fromEntries(new FormData(form).entries());
-    delete data.website;
-    Object.keys(data).forEach(k => { if (typeof data[k] === "string") data[k] = data[k].trim(); });
-    data.email = data.email.toLowerCase();
-    const p = cleanPhone(data.phone), m = p.match(EG_MOBILE);
-    data.phone = m ? "+20" + m[1] : p;                  // store phones in one consistent format
-    data.prevExp = prevVal(); data.consent = "Yes";
-    const file = $("cv").files[0];
-    if (file) { data.cvName = file.name; data.cvType = file.type || "application/octet-stream"; data.cvData = await toBase64(file); }
-
-    if (SCRIPT_URL.startsWith("PASTE")) { console.log("Preview mode – nothing sent:", data); }
-    else await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) });
-    form.style.display = "none"; $("done").style.display = "block"; window.scrollTo({ top: 0, behavior: "smooth" });
-  } catch (err) {
-    $("status").textContent = "Something went wrong. Check your connection and try again."; $("status").style.color = "#ffb4a8";
-    $("btn").disabled = false; $("btn").textContent = "Submit application";
-  }
-});
-</script>
-</body>
-</html>
+f
